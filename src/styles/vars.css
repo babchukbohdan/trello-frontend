@@ -1,4 +1,11 @@
+:root {
+  --card-width: 272px;
+  --text-color: #f8f8f8;
+  --card-bg-color: #222;
+  --card-item-bg-color: #333;
+}
 body {
   background-color: tomato;
+  color: var(--text-color);
 }
 /*# sourceMappingURL=vars.css.map */
