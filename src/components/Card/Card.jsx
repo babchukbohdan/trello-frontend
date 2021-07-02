@@ -1,32 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Droppable } from 'react-beautiful-dnd';
 
 import CardItem from '../CartItem/CardItem';
 import './Card.css';
 
-const Card = ({ title, cardItems }) => (
+const Card = ({ id, title, cardItems }) => {
   // const { data, loading, error, refetch } = useQuery();
-  <div className="card">
-    <div className="card__header">
-      <h2 className="card__title">{title}</h2>
+
+  const [items, setitems] = useState(cardItems);
+
+  return (
+    <div className="card">
+      <div className="card__header">
+        <h2 className="card__title">{title}</h2>
+      </div>
+      <Droppable droppableId={id.toString()}>
+        {(provided) => (
+          <div className="card__content" {...provided.droppableProps}>
+            {cardItems.map(
+              (
+                { id: cardItemId, title: cardItemTitle, description },
+                index
+              ) => (
+                <CardItem
+                  index={index}
+                  id={cardItemId}
+                  key={cardItemId}
+                  title={cardItemTitle}
+                  description={description}
+                />
+              )
+            )}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+      <div className="card__footer">
+        <button className="card__add-btn" type="button">
+          Add item
+        </button>
+      </div>
     </div>
-    <div className="card__content">
-      {cardItems.map(({ id, title: cardItemTitle, description }) => (
-        <CardItem key={id} title={cardItemTitle} description={description} />
-      ))}
-    </div>
-    <div className="card__footer">
-      <button className="card__add-btn" type="button">
-        Add item
-      </button>
-    </div>
-  </div>
-);
+  );
+};
 Card.propTypes = {
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   cardItems: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       description: PropTypes.string,
     })

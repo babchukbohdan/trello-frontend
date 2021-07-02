@@ -9,10 +9,12 @@ export const GET_ALL_BOARDS = gql`
       cards {
         id
         title
+        order
         cardItems {
           id
           title
           description
+          order
         }
       }
     }
